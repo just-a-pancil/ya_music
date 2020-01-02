@@ -176,7 +176,7 @@ class myApp(App):
             size=(20,20),
             anchor_y='center', 
             anchor_x='right',
-            padding=[330    ,500,0,100])
+            padding=[330,500,0,100])
         slider = Slider(
             value_track=True,
             orientation='vertical',
@@ -184,7 +184,7 @@ class myApp(App):
             # border_vertical=[1,1,1,1],
             step=10,
             # pos_hint={'x':.5, 'y':.005},
-            pos=(150,100),
+            # pos=(0,0),
             # padding=1,
             min=0,
             max=100,
