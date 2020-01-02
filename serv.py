@@ -57,20 +57,19 @@ class Browser():
         self.funcs['nxt'] = self.nxt
         self.funcs['shffle'] = self.shffle
         self.funcs['loudness'] = self.loudness
+        self.funcs['mute'] = self.mute
         self.muted = False
-        self.loudness_val = 25
-        # track_title = ''
-        # download_flag = 0
+        self.loudness_val = 20
 
     def run(self, data):
-        # data = data.split()
-        # func = data[0]
-        # if len(data) > 1:
-        #     self.funcs[func](data.split()[1])
-        if data.find(b" ") != -1:
+        if data.find(b" ") == -1:
+            self.funcs[data.decode()]()
+        else:
             splitted_data = data.split()
-            self.funcs[splitted_data[0].decode()](splitted_data[1].decode())
-        else: self.funcs[data.decode()]()
+            self.funcs[splitted_data[0].decode()](
+                splitted_data[1].decode(),
+                # splitted_data[2].decode()
+                )
 
 
     def previous(self):
@@ -114,6 +113,7 @@ origin=music_button-header&retpath=https%3A%2F%
         a = ActionChains(self.driver)
         a.move_to_element(butt)
         a.move_by_offset(0,1)
+        a.pause(0.5)
         a.double_click()
         a.perform()
 
@@ -129,23 +129,27 @@ origin=music_button-header&retpath=https%3A%2F%
         butt.click()
 
     def mute(self):
-        play = self.driver.find_element(
-                By.XPATH, '//*[@class="volume__btn"]')
-        play.click()
-        self.muted = not self.muted
+        # play = self.driver.find_element(
+        #         By.XPATH, '//*[@class="volume__btn"]')
+        # play.click()
+        self.loudness(0)
 
-    def loudness(self, value):
-        data = data.split()[1].decode()
-        call((["amixer", "sset", "Master", "1%+"]))
-
+    def loudness(self, value=None, check_val=None):
+        # call((["amixer", "sset", "Master", "1%+"]))
+        if type(value) == str:
+            if value == '+':
+                ActionChains(self.driver).key_up("+").perform()
+            elif value == '-':
+                ActionChains(self.driver).key_up("-").perform()
+        elif type(value) == int:
+            ActionChains(self.driver).key_up("0").perform()
+            for i in range(round(value/10)):
+                ActionChains(self.driver).key_up("+").perform()
+                ActionChains(self.driver).pause(.05).perform()
+        print('loudness ' + str(value))
 
     def test(self):
-        offset = 0
-        while True:
-            data = serv.recieving()
-            if not data: break
-            self.loudness(data.split()[1].decode())
-
+        pass
 
 serv = Server()
 while True:
@@ -156,12 +160,14 @@ if serv.listen():
     browser.login(log='iwannabeyourgirlfriend@yandex.ru',
         pas='PASSPORT_1WanNaBUrGf_YANDEX')
     browser.play_fav()
-    # browser.test()
+    # browser.plause()
+    browser.loudness(20)
+
 
 while True:
     data = serv.recieving()
     if not data: break
-    print(data.split()[0].decode())
+    print(data.decode())
     browser.run(data)
 
 # browser.driver.quit()

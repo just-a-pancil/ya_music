@@ -57,6 +57,7 @@ class myApp(App):
         super(myApp, self).__init__()
         self.conn = Connection()
         self.connected = False
+        self.loudness_value = 20
 
     def start_btn_press(self, instance):
         print('strart_pressed')
@@ -92,19 +93,25 @@ class myApp(App):
         else: pass
 
     def slider_move(self, instance, value):
-        self.loudness_value = round(value,2)
-        print(self.loudness_value)
-        
-        
-
-    def loud_btn_press(self, instance):
-        print('loud_press')
-        mes = str(round(self.loudness_value,2))
-        mes = 'loudness ' + mes
+        mes = None
+        if value > self.loudness_value:
+            mes = 'loudness +'
+        elif value < self.loudness_value:
+            mes = 'loudness -'
         if self.connected:
             self.conn.send_mes(mes)
         else: pass
+        print(value)
+        self.loudness_value = value
+        
+        
 
+    def mute_btn_press(self, instance):
+        print('mute_pressed')
+        mes = 'mute'
+        if self.connected:
+            self.conn.send_mes(mes)
+        else: pass
 
         
     def build(self):
@@ -169,19 +176,19 @@ class myApp(App):
             size=(20,20),
             anchor_y='center', 
             anchor_x='right',
-            padding=[330    ,100,0,100])
+            padding=[330    ,500,0,100])
         slider = Slider(
             value_track=True,
             orientation='vertical',
             # sensitivity='handle',
             # border_vertical=[1,1,1,1],
-            step=.1,
+            step=10,
             # pos_hint={'x':.5, 'y':.005},
             pos=(150,100),
             # padding=1,
             min=0,
             max=100,
-            value=25,
+            value=self.loudness_value,
             )
 
         slider.bind(value=self.slider_move)
@@ -196,11 +203,11 @@ class myApp(App):
             )
         layout_loud.add_widget(MyButton(
             # pos=(100, 100),
-            text='send', 
+            text='mute', 
             background_color=[0,0,0.5,0.9], 
             background_normal='',
             size_hint=(.2,.1),
-            on_press=self.loud_btn_press))
+            on_press=self.mute_btn_press))
 
         global_layout.add_widget(layout_start)
         global_layout.add_widget(layout_left)
