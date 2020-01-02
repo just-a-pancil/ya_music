@@ -1,5 +1,5 @@
-#phone_mode = False
-phone_mode = True
+phone_mode = False
+# phone_mode = True
 
 import socket
 
