@@ -50,7 +50,7 @@ class Browser():
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_experimental_option('w3c', False)
         self.driver = webdriver.Chrome(
-            "/home/duo/Desktop/phone-control/chromedriver",
+            "/home/duo/ya_music/chromedriver",
             options=self.chrome_options)
         self.funcs['previous'] = self.previous
         self.funcs['plause'] = self.plause
@@ -74,19 +74,22 @@ class Browser():
 
 
     def previous(self):
-        prev = self.driver.find_element(
-                By.XPATH, '//*[@class="d-icon d-icon_track-prev"]')
-        prev.click()
+        # prev = self.driver.find_element(
+        #         By.XPATH, '//*[@class="d-icon d-icon_track-prev"]')
+        # prev.click()
+        ActionChains(self.driver).key_up("K").perform()
 
     def nxt(self):
-        n = self.driver.find_element(
-                By.XPATH, '//*[@class="d-icon d-icon_track-next"]')
-        n.click()
+        # n = self.driver.find_element(
+        #         By.XPATH, '//*[@class="d-icon d-icon_track-next"]')
+        # n.click()
+        ActionChains(self.driver).key_up("L").perform()
 
     def plause(self):
-        play = self.driver.find_element(
-                By.XPATH, '//*[@class="d-icon d-icon_play"]')
-        play.click()
+        # play = self.driver.find_element(
+        #         By.XPATH, '//*[@class="d-icon d-icon_play"]')
+        # play.click()
+        ActionChains(self.driver).key_up("P").perform()
 
     def login(self, log='mrazvozov2015@yandex.ru',
         pas='qwertyuiop[]asdfghjkl;'):
@@ -153,12 +156,12 @@ if serv.listen():
     browser.login(log='iwannabeyourgirlfriend@yandex.ru',
         pas='PASSPORT_1WanNaBUrGf_YANDEX')
     browser.play_fav()
-    browser.test()
+    # browser.test()
 
-# while True:
-#     data = serv.recieving()
-#     if not data: break
-#     print(data.split()[0].decode())
-    # browser.run(data)
+while True:
+    data = serv.recieving()
+    if not data: break
+    print(data.split()[0].decode())
+    browser.run(data)
 
-browser.driver.quit()
+# browser.driver.quit()
