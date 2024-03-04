@@ -5,7 +5,7 @@ import time
 # import requests, os, json, time, re, sys
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.touch_actions import TouchActions
+# from selenium.webdriver.common.touch_actions import TouchActions
 from selenium.webdriver.chrome import service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
