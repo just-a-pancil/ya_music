@@ -13,6 +13,8 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 import socket
 
+loggg='YOUR_LOGIN'
+passw='YOUR_PASSWORD'
 
 class Server:
     def __init__(self, PORT=59090):
@@ -90,8 +92,8 @@ class Browser():
         # play.click()
         ActionChains(self.driver).key_up("P").perform()
 
-    def login(self, log='mrazvozov2015@yandex.ru',
-        pas='qwertyuiop[]asdfghjkl;'):
+    def login(self, log=loggg,
+        pas=passw):
         self.usr = log[:log.find('@')]
         # login_button = self.driver.find_element_by_name("Войти")
         # login_button.click()
@@ -157,8 +159,8 @@ while True:
 
 if serv.listen():
     browser = Browser()
-    browser.login(log='iwannabeyourgirlfriend@yandex.ru',
-        pas='PASSPORT_1WanNaBUrGf_YANDEX')
+    browser.login(log=loggg,
+        pas=passw)
     browser.play_fav()
     # browser.plause()
     browser.loudness(20)
